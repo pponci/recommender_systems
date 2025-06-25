@@ -25,7 +25,15 @@ cd recommender_systems
 ### 2. Create and activate the environment
 
 ```bash
-conda env create -f environment.yaml
+conda env create -f environment.yml
+conda activate recommender_env
+```
+
+**Alternative (faster):** If the installation is too slow with conda, you can use mamba:
+
+```bash
+conda install -n base -c conda-forge mamba
+mamba env create -f environment.yml
 conda activate recommender_env
 ```
 
