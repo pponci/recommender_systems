@@ -1,6 +1,11 @@
+"""
+Training module for the book recommendation system.
+This module handles the training of the collaborative filtering model using ALS.
+"""
 import os
 import pickle
 
+# pylint: disable=import-error
 from implicit.als import AlternatingLeastSquares
 from scipy import sparse
 
@@ -53,8 +58,8 @@ def save_model(model, model_save_path="../models/model1.pkl"):
     Save the trained model
     """
 
-    with open(model_save_path, "wb") as f:
-        pickle.dump(model, f)
+    with open(model_save_path, "wb", encoding=None) as file_handle:
+        pickle.dump(model, file_handle)
 
 
 def training_pipeline():
