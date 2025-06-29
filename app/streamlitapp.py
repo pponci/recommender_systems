@@ -1,37 +1,44 @@
+"""
+Streamlit application for book recommendation system.
+Provides a web interface for users to get personalized book recommendations.
+"""
 import sys
 from pathlib import Path
 
 import streamlit as st
 
+# Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
+# pylint: disable=wrong-import-position
 from src.inference import inference_pipeline, load_books_data
-from src.preprocessing import load_ratings, clean_ratings_data, clean_books_data
+from src.preprocessing import (clean_books_data, clean_ratings_data,
+                               load_ratings)
 
 
 def main():
+    """Main function to run the Streamlit book recommendation application."""
+    # Load and clean data
     df_ratings = load_ratings()
     df_ratings = clean_ratings_data(df_ratings=df_ratings)
     df_books = load_books_data()
     df_books = clean_books_data(df_books=df_books)
 
+    # Extract unique values for filters
     unique_users = df_ratings.user_id.unique().tolist()
     unique_authors = df_books.authors.unique().tolist()
-    unique_authors = list(
-        set(
-            [
-                author
-                for authors in unique_authors
-                for author in (authors.split(",") if "," in authors else [authors])
-            ]
-        )
-    )
+    unique_authors = list({
+        author
+        for authors in unique_authors
+        for author in (authors.split(",") if "," in authors else [authors])
+    })
 
     min_year_pub = abs(df_books.original_publication_year.min())
     max_year_pub = abs(df_books.original_publication_year.max())
 
     unique_languages = list(set(df_books.language.unique().tolist()))
 
+    # Main app interface
     st.title("Book Recommendation System")
     st.write("Get personalized book recommendations based on your preferences!")
 
@@ -137,8 +144,8 @@ def main():
                     mime="text/csv",
                 )
 
-            except Exception as e:
-                st.error(f"An error occurred: {str(e)}")
+            except Exception as exception:  # pylint: disable=broad-exception-caught
+                st.error(f"An error occurred: {str(exception)}")
 
 
 if __name__ == "__main__":
