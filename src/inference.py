@@ -8,7 +8,7 @@ from scipy import sparse
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
-from preprocessing import clean_books_data, load_books_data
+from src.preprocessing import clean_books_data, load_books_data
 
 
 def load_model_and_data():
