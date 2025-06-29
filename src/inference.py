@@ -212,3 +212,4 @@ def inference_pipeline(
 if __name__ == "__main__":
 
     print(inference_pipeline(publication_year_max=1990, publication_year_min=1970))
+    
